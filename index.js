@@ -1,4 +1,6 @@
 import nmp from 'minecraft-protocol';
+import mineflayer from 'mineflayer';
+import viewer from 'prismarine-viewer';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
@@ -16,6 +18,10 @@ const client = nmp.createClient({
 
 client.on('playerChat', ev => {
     console.log(ev);
+});
+
+client.once('spawn', () => {
+    viewer(client, { port: 1234, firstPerson: true });
 });
 
 const app = express();
