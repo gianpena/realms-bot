@@ -7,7 +7,6 @@ dotenv.config();
 
 const client = mineflayer.createBot({
     realms: {
-        // This function is called with an array of Realms the account can join. It should return the one it wants to join.
         pickRealm: (realms) => realms[1]
       },
     username: process.env.EMAIL, // minecraft username
@@ -23,10 +22,8 @@ client.on('chat', async (username, message) => {
 const app = express();
 const port = 3456;
 
-// Enable CORS for all routes
 app.use(cors());
 
-// Parse JSON bodies
 app.use(express.json());
 
 function forward() {
