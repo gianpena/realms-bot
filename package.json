@@ -1,0 +1,19 @@
+{
+  "name": "realms-bot",
+  "version": "1.0.0",
+  "description": "A bot to afk on my minecraft realm.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Gian",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "minecraft-protocol": "^1.62.0",
+    "mineflayer": "^4.33.0"
+  },
+  "type": "module"
+}
