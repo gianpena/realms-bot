@@ -49,20 +49,14 @@ async function timeout(delay){
 
 app.post('/move', (req, res) => {
 
-    setTimeout(async () => {
-        for(let i=0;;i++) {
-            if(i%2===0) forward();
-            else backward();
-            await timeout(1);
-        }
-    }, 1000);
-
+    active = true;
     return res.status(200).json({success: true, message: 'Moving bot...'});
 
 });
 
 app.post('/stop', (req, res) => {
 
+    active = false;
     stop();
     return res.status(200).json({success: true, message: 'Ceasing bot motion...'});
 
@@ -71,3 +65,14 @@ app.post('/stop', (req, res) => {
 app.listen(port, () => {
     console.log(`Express listening on port ${port}...`);
 });
+
+let active = false;
+setTimeout(async () => {
+    for(let i=0;;i++) {
+        if(active) {
+            if(i%2===0) forward();
+            else backward();
+        }
+        await timeout(1);
+    }
+}, 1000);
