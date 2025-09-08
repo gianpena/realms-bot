@@ -1,4 +1,5 @@
 import mineflayer from 'mineflayer';
+import { mineflayer as viewer } from 'prismarine-viewer';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
@@ -9,14 +10,20 @@ const client = mineflayer.createBot({
     realms: {
         pickRealm: (realms) => realms[1]
       },
-    username: process.env.EMAIL, // minecraft username
+    username: process.env.EMAIL,
     version: process.env.VERSION,
     auth: 'microsoft'
 });
 
-client.on('chat', async (username, message) => {
+client.on('chat', (username, message) => {
     if (username === client.username) return;
     console.log(`${username}: ${message}`);
+});
+
+client.once('spawn', () => {
+    console.log('Bot spawned, starting viewer...');
+    viewer(client, { port: 1234, firstPerson: true });
+    console.log('Viewer should be available at http://localhost:1234');
 });
 
 const app = express();
