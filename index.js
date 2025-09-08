@@ -36,7 +36,6 @@ function backward() {
 }
 async function timeout(delay){
     await new Promise(resolve => setTimeout(() => {
-        console.log('Hello!');
         resolve();
     }, delay * 1000));
 }
