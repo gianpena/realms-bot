@@ -1,11 +1,11 @@
-import mineflayer from 'mineflayer';
+import nmp from 'minecraft-protocol';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 
 dotenv.config();
 
-const client = mineflayer.createBot({
+const client = nmp.createClient({
     realms: {
         pickRealm: (realms) => realms[1]
       },
@@ -14,9 +14,8 @@ const client = mineflayer.createBot({
     auth: 'microsoft'
 });
 
-client.on('chat', async (username, message) => {
-    if (username === client.username) return;
-    console.log(`${username}: ${message}`);
+client.on('playerChat', ev => {
+    console.log(ev);
 });
 
 const app = express();
