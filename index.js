@@ -34,6 +34,13 @@ function backward() {
     client.setControlState('forward', false);
     client.setControlState('back', true);
 }
+
+function stop() {
+    client.setControlState('forward', false);
+    client.setControlState('back', false);
+    client.setControlState('left', false);
+    client.setControlState('right', false);
+}
 async function timeout(delay){
     await new Promise(resolve => setTimeout(() => {
         resolve();
@@ -50,7 +57,16 @@ app.post('/move', (req, res) => {
         }
     }, 1000);
 
-})
+    return res.status(200).json({success: true, message: 'Moving bot...'});
+
+});
+
+app.post('/stop', (req, res) => {
+
+    stop();
+    return res.status(200).json({success: true, message: 'Ceasing bot motion...'});
+
+});
 
 app.listen(port, () => {
     console.log(`Express listening on port ${port}...`);
