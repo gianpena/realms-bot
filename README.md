@@ -13,4 +13,7 @@ npm start
 ```
 
 # Why isn't it working?!
-Make sure you've created `.env` at the root level of the repository and define the variables `EMAIL` and `VERSION` in this!
+Make sure you've created `.env` at the root level of the repository with the following variables:
+- `EMAIL` - the email of the account you would like to use for the bot
+- `VERSION` - the game version
+- `HOST` - the IP or domain name you want the bot to connect to
