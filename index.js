@@ -7,9 +7,7 @@ import cors from 'cors';
 dotenv.config();
 
 const client = mineflayer.createBot({
-    realms: {
-        pickRealm: (realms) => realms[1]
-      },
+    host: process.env.HOST,
     username: process.env.EMAIL,
     version: process.env.VERSION,
     auth: 'microsoft'
