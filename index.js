@@ -6,7 +6,7 @@ import cors from 'cors';
 
 dotenv.config();
 
-const client = mineflayer.createBot({
+let client = mineflayer.createBot({
     host: process.env.HOST,
     username: process.env.EMAIL,
     version: process.env.VERSION,
@@ -52,6 +52,15 @@ async function timeout(delay){
     }, delay * 1000));
 }
 
+function rejoin() {
+    client = mineflayer.createBot({
+        host: process.env.HOST,
+        username: process.env.EMAIL,
+        version: process.env.VERSION,
+        auth: 'microsoft'
+    });
+}
+
 app.post('/move', (req, res) => {
 
     active = true;
@@ -65,6 +74,18 @@ app.post('/stop', (req, res) => {
     stop();
     return res.status(200).json({success: true, message: 'Ceasing bot motion...'});
 
+});
+
+app.post('/disconnect', (req, res) => {
+    active = false;
+    stop();
+    client.quit('logged off with /disconnect');
+    return res.status(200).json({success: true, message: 'Logging off...'});
+});
+
+app.post('/connect', (req, res) => {
+    rejoin();
+    return res.status(200).json({success: true, message: 'Connecting...'});
 });
 
 app.listen(port, () => {
