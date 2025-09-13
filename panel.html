@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .move-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .stop-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .connect-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .disconnect-btn {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e8;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            color: #2e7d2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Control Panel</h1>
+        
+        <div class="button-grid">
+            <button class="move-btn" onclick="sendCommand('move')">Move</button>
+            <button class="stop-btn" onclick="sendCommand('stop')">Stop</button>
+            <button class="connect-btn" onclick="sendCommand('connect')">Connect</button>
+            <button class="disconnect-btn" onclick="sendCommand('disconnect')">Disconnect</button>
+        </div>
+        
+        <div id="status" class="status">Ready</div>
+    </div>
+
+    <script>
+        async function sendCommand(action) {
+            const statusDiv = document.getElementById('status');
+            const url = `http://localhost:3456/${action}`;
+            
+            try {
+                statusDiv.textContent = `Sending ${action}...`;
+                statusDiv.style.backgroundColor = '#fff3cd';
+                statusDiv.style.color = '#856404';
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                if (response.ok) {
+                    statusDiv.textContent = `${action.toUpperCase()} command sent successfully!`;
+                    statusDiv.style.backgroundColor = '#d4edda';
+                    statusDiv.style.color = '#155724';
+                } else {
+                    statusDiv.textContent = `Error: ${response.status} ${response.statusText}`;
+                    statusDiv.style.backgroundColor = '#f8d7da';
+                    statusDiv.style.color = '#721c24';
+                }
+            } catch (error) {
+                statusDiv.textContent = `Network error: ${error.message}`;
+                statusDiv.style.backgroundColor = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+            }
+            
+            // Reset status after 3 seconds
+            setTimeout(() => {
+                statusDiv.textContent = 'Ready';
+                statusDiv.style.backgroundColor = '#e8f5e8';
+                statusDiv.style.color = '#2e7d2e';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
