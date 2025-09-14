@@ -18,7 +18,7 @@ client.on('chat', (username, message) => {
 });
 
 client.once('spawn', () => {
-    console.log('Bot spawned, starting viewer...');
+    console.log('Bot spawned...');
 });
 
 const app = express();
